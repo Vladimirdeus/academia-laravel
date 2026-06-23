@@ -6,7 +6,8 @@ use App\Http\Controllers\AprendizController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/inicio', [AprendizController::class, 'index']);
+Route::get('/productos', [AprendizController::class, 'listadoProductos']);
 Route::get('/aprendiz', function () {
     return "Yo voy a aprender Laravel";
 });

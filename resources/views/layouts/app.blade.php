@@ -1,0 +1,4 @@
+ 
+@yield('contenido')
+
+@yield('form')
