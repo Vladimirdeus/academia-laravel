@@ -13,3 +13,5 @@ Route::get('/aprendiz', function () {
 });
 
 Route::get( '/saludo', [AprendizController::class, 'saludo'] );
+
+Route::get('/variable/{valor?}', [AprendizController::class,'variable'] );
