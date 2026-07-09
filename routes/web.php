@@ -1,17 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AprendizController;
 
 Route::get('/', function () {
-    return view('home');
-});
-Route::get('/inicio', [AprendizController::class, 'index']);
-Route::get('/productos', [AprendizController::class, 'listadoProductos']);
-Route::get('/aprendiz', function () {
-    return "Yo voy a aprender Laravel";
+    return view('home' );
 });
 
-Route::get( '/saludo', [AprendizController::class, 'saludo'] );
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/variable/{valor?}', [AprendizController::class,'variable'] );
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
