@@ -3,9 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('queue', 125)->index();
+            $table->string('queue')->index();
             $table->longText('payload');
             $table->unsignedSmallInteger('attempts');
             $table->unsignedInteger('reserved_at')->nullable();
@@ -22,8 +22,8 @@ return new class extends Migration {
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
-            $table->string('id', 125)->primary();
-            $table->string('name', 125);
+            $table->string('id')->primary();
+            $table->string('name');
             $table->integer('total_jobs');
             $table->integer('pending_jobs');
             $table->integer('failed_jobs');
@@ -35,30 +35,16 @@ return new class extends Migration {
         });
 
         Schema::create('failed_jobs', function (Blueprint $table) {
-
-            $table->engine = 'InnoDB';
-
             $table->id();
-
-            $table->string('uuid', 125)->unique();
-
-            $table->string('connection', 125);
-
-            $table->string('queue', 125);
-
+            $table->string('uuid')->unique();
+            $table->string('connection');
+            $table->string('queue');
             $table->longText('payload');
-
             $table->longText('exception');
-
             $table->timestamp('failed_at')->useCurrent();
 
-            $table->index([
-                'connection',
-                'queue',
-                'failed_at'
-            ]);
+            $table->index(['connection', 'queue', 'failed_at']);
         });
-        DB::statement('ALTER TABLE failed_jobs ROW_FORMAT=DYNAMIC');
     }
 
     /**
